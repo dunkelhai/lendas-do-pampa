@@ -19,6 +19,28 @@ async function loadFonts(): Promise<void> {
   await document.fonts.ready;
 }
 
+/** Ignora auto-repetição de teclas de ação (segurar Z não joga várias cartas). */
+const REPEAT_OK = new Set([
+  'ArrowLeft',
+  'ArrowRight',
+  'ArrowUp',
+  'ArrowDown',
+  'KeyA',
+  'KeyD',
+  'KeyW',
+  'KeyS',
+]);
+window.addEventListener(
+  'keydown',
+  (e) => {
+    if (e.repeat && !REPEAT_OK.has(e.code)) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  },
+  true,
+);
+
 async function boot(): Promise<void> {
   await loadFonts();
   const game = new Phaser.Game({
