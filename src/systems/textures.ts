@@ -508,7 +508,7 @@ export const ART_H = 100;
 function drawArt(g: G, kind: ArtKind): void {
   g.fillGradientStyle(PAL.ceuAlto, PAL.ceuAlto, PAL.ceuBaixo, PAL.ceuBaixo, 1);
   g.fillRect(0, 0, ART_W, ART_H);
-  g.fillStyle(PAL.ouroClaro, 0.7).fillCircle(130, 70, 14);
+  g.fillStyle(PAL.ouroClaro, 0.8).fillCircle(140, 22, 11);
   const hill = curve(20, (t) => [t * ART_W, 78 + Math.sin(t * 6 + 1) * 6]);
   g.fillStyle(PAL.coxilha, 1).fillPoints(
     [{ x: 0, y: ART_H }, ...pairs(hill), { x: ART_W, y: ART_H }],

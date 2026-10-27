@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { PALS } from '../style/palette';
+import { PAL, PALS } from '../style/palette';
 import { restartRun } from '../systems/flow';
 import { settings } from '../systems/settings';
 import { button, titleText, uiText, type Button } from '../systems/ui';
@@ -16,7 +16,7 @@ export class PauseScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.add.rectangle(640, 360, 1280, 720, 0x000000, 0.6);
+    this.add.rectangle(640, 360, 1280, 720, PAL.preto, 0.6);
     titleText(this, 640, 200, 'PAUSA', 64, PALS.ouro);
     const label = () => `Reduzir tremor/flash: ${settings.reduceMotion ? 'SIM' : 'NÃO'}`;
     const resume = () => {

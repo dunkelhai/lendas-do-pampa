@@ -42,7 +42,7 @@ export function titleText(
       strokeThickness: 8,
     })
     .setOrigin(0.5)
-    .setShadow(0, 3, '#000', 0, true, true);
+    .setShadow(0, 3, PALS.preto, 0, true, true);
 }
 
 export function panel(
@@ -54,7 +54,7 @@ export function panel(
   alpha = 0.45,
 ): Phaser.GameObjects.Graphics {
   const g = scene.add.graphics();
-  g.fillStyle(0x000000, alpha).fillRoundedRect(x, y, w, h, 12);
+  g.fillStyle(PAL.preto, alpha).fillRoundedRect(x, y, w, h, 12);
   return g;
 }
 
@@ -142,7 +142,7 @@ export class Bar {
     const f = Math.max(0, Math.min(1, value / max));
     g.clear();
     g.fillStyle(PAL.tinta, 1).fillRoundedRect(this.x - 3, this.y - 3, this.w + 6, this.h + 6, 8);
-    g.fillStyle(0x3a2a3a, 1).fillRoundedRect(this.x, this.y, this.w, this.h, 6);
+    g.fillStyle(PAL.barraFundo, 1).fillRoundedRect(this.x, this.y, this.w, this.h, 6);
     if (f > 0)
       g.fillStyle(block > 0 ? PAL.jogador : this.color, 1).fillRoundedRect(
         this.x,

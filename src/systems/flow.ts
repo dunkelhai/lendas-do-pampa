@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { PALS } from '../style/palette';
 import { newRun } from './run';
 import { isDebug } from './settings';
 
@@ -39,5 +40,25 @@ export function bindCommonKeys(scene: Phaser.Scene): void {
     kb.addKey('F2', true);
     kb.on('keydown-F1', () => showEnd(scene, true));
     kb.on('keydown-F2', () => showEnd(scene, false));
+    kb.addKey('F6', true);
+    let fps: Phaser.GameObjects.Text | null = null;
+    kb.on('keydown-F6', () => {
+      if (fps) {
+        fps.destroy();
+        fps = null;
+        return;
+      }
+      const t = scene.add
+        .text(1272, 712, '', { fontFamily: 'monospace', fontSize: '16px', color: PALS.branco })
+        .setOrigin(1, 1)
+        .setDepth(2000);
+      fps = t;
+      const ev = scene.time.addEvent({
+        delay: 500,
+        loop: true,
+        callback: () =>
+          t.active ? t.setText(`${scene.game.loop.actualFps.toFixed(0)} fps`) : ev.remove(),
+      });
+    });
   }
 }

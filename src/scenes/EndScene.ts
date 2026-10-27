@@ -20,7 +20,7 @@ export class EndScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.add.rectangle(640, 360, 1280, 720, 0x000000, 0.6);
+    this.add.rectangle(640, 360, 1280, 720, PAL.preto, 0.6);
     if (this.win) sfx.win();
     else sfx.lose();
     const title = titleText(

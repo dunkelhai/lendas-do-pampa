@@ -308,7 +308,7 @@ export class CombatScene extends Phaser.Scene {
       kb.on('keydown-RIGHT', right);
       kb.on('keydown-D', right);
       const play = () => {
-        if (this.busy || this.cards.length === 0) return;
+        if (this.busy || this.dragging || this.cards.length === 0) return;
         if (this.focus < 0) {
           this.setFocus(0);
           return;
@@ -372,12 +372,13 @@ export class CombatScene extends Phaser.Scene {
         this.layoutHand();
       }
     });
-    this.events.on(Phaser.Scenes.Events.UPDATE, () => {
-      const d = this.dragging;
-      if (!d) return;
-      d.img.x += (this.dragTarget.x - d.img.x) * 0.35;
-      d.img.y += (this.dragTarget.y - d.img.y) * 0.35;
-    });
+  }
+
+  update(): void {
+    const d = this.dragging;
+    if (!d) return;
+    d.img.x += (this.dragTarget.x - d.img.x) * 0.35;
+    d.img.y += (this.dragTarget.y - d.img.y) * 0.35;
   }
 
   // ------------------------------------------------------------ mão
@@ -449,7 +450,7 @@ export class CombatScene extends Phaser.Scene {
   }
 
   private moveFocus(d: number): void {
-    if (this.busy || this.cards.length === 0) return;
+    if (this.busy || this.dragging || this.cards.length === 0) return;
     const n = this.cards.length;
     if (this.focus < 0) this.setFocus(d > 0 ? 0 : n - 1);
     else this.setFocus((this.focus + d + n) % n);
@@ -585,7 +586,7 @@ export class CombatScene extends Phaser.Scene {
   }
 
   private async endTurn(): Promise<void> {
-    if (this.busy || this.ended) return;
+    if (this.busy || this.ended || this.dragging) return;
     this.busy = true;
     this.focus = -1;
     this.combat.endPlayerTurn();
@@ -775,7 +776,7 @@ export class CombatScene extends Phaser.Scene {
           break;
         case 'power': {
           const c = this.playerV.center();
-          floatText(this, c.x, c.y - 110, `Poder: ${CARDS[e.card].name}`, '#c59bf0', 28);
+          floatText(this, c.x, c.y - 110, `Poder: ${CARDS[e.card].name}`, PALS.poder, 28);
           sfx.buff();
           this.refreshAll();
           await this.wait(150);
@@ -849,29 +850,42 @@ export class CombatScene extends Phaser.Scene {
       });
     if (m.block) parts.push({ icon: 'intent-defend', text: `${m.block}` });
     if (m.strength) parts.push({ icon: 'intent-buff', text: `+${m.strength}` });
-    if (m.vulnerable || m.weak) parts.push({ icon: 'intent-debuff', text: '' });
-    const w = 92;
+    if (m.vulnerable || m.weak) {
+      const d: string[] = [];
+      if (m.vulnerable) d.push(`Vuln. ${m.vulnerable}`);
+      if (m.weak) d.push(`Fraco ${m.weak}`);
+      parts.push({ icon: 'intent-debuff', text: d.join(' ') });
+    }
     const bg = this.add.graphics();
-    const total = parts.length * w;
-    bg.fillStyle(0x000000, 0.45).fillRoundedRect(-total / 2 - 8, -30, total + 16, 60, 12);
     this.intent.add(bg);
-    parts.forEach((p, i) => {
-      const x = -total / 2 + i * w + 28;
-      this.intent.add(this.add.image(x, 0, p.icon));
+    const items: Phaser.GameObjects.Components.Transform[] = [];
+    let x = 0;
+    for (const p of parts) {
+      const icon = this.add.image(x + 24, 0, p.icon);
+      this.intent.add(icon);
+      items.push(icon);
+      x += 52;
       if (p.text) {
-        this.intent.add(
-          this.add
-            .text(x + 26, 2, p.text, {
-              fontFamily: FONT_TITLE,
-              fontSize: '30px',
-              color: PALS.branco,
-              stroke: PALS.tinta,
-              strokeThickness: 5,
-            })
-            .setOrigin(0, 0.5),
-        );
+        const small = p.icon === 'intent-debuff';
+        const t = this.add
+          .text(x, 2, p.text, {
+            fontFamily: small ? FONT_UI : FONT_TITLE,
+            fontStyle: small ? '800' : 'normal',
+            fontSize: small ? '20px' : '30px',
+            color: PALS.branco,
+            stroke: PALS.tinta,
+            strokeThickness: 5,
+          })
+          .setOrigin(0, 0.5);
+        this.intent.add(t);
+        items.push(t);
+        x += t.width + 10;
       }
-    });
+      x += 8;
+    }
+    const total = x - 8;
+    for (const it of items) it.x -= total / 2;
+    bg.fillStyle(PAL.preto, 0.45).fillRoundedRect(-total / 2 - 10, -30, total + 20, 60, 12);
     const name = this.add
       .text(0, 44, m.name, {
         fontFamily: FONT_UI,

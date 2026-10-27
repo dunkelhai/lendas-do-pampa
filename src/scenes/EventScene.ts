@@ -196,7 +196,7 @@ export class EventScene extends Phaser.Scene {
     this.focus = 0;
     const layer = this.add.container(0, 0).setDepth(50);
     this.deckLayer = layer;
-    layer.add(this.add.rectangle(640, 360, 1280, 720, 0x000000, 0.75).setInteractive());
+    layer.add(this.add.rectangle(640, 360, 1280, 720, PAL.preto, 0.75).setInteractive());
     layer.add(uiText(this, 640, 100, 'Qual carta fica no galpão? (X para voltar)', 28, PALS.ouro));
     const perRow = 8;
     const ids: CardId[] = [...run.deck];

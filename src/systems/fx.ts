@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { FONT_TITLE, PAL } from '../style/palette';
+import { FONT_TITLE, PAL, PALS } from '../style/palette';
 import { settings } from './settings';
 
 export function shake(scene: Phaser.Scene, strong = false): void {
@@ -50,7 +50,7 @@ export function floatText(
       fontFamily: FONT_TITLE,
       fontSize: `${size}px`,
       color,
-      stroke: '#1b1420',
+      stroke: PALS.tinta,
       strokeThickness: 6,
     })
     .setOrigin(0.5)

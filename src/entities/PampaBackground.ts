@@ -33,14 +33,14 @@ function hillTexture(
 ): void {
   if (scene.textures.exists(key)) return;
   const g = scene.make.graphics({ x: 0, y: 0 }, false);
-  const pts: Phaser.Types.Math.Vector2Like[] = [{ x: 0, y: 360 }];
+  const pts: Phaser.Types.Math.Vector2Like[] = [{ x: 0, y: 440 }];
   for (let x = 0; x <= 1280; x += 16) {
     pts.push({
       x,
       y: base + amp * Math.sin(x * freq + phase) + amp * 0.4 * Math.sin(x * freq * 2.3 + phase * 2),
     });
   }
-  pts.push({ x: 1280, y: 360 });
+  pts.push({ x: 1280, y: 440 });
   g.fillStyle(color, 1).fillPoints(pts, true);
   // tufos de capim chapados
   g.fillStyle(PAL.tinta, 0.12);
@@ -49,7 +49,7 @@ function hillTexture(
     const y = base + amp * Math.sin(x * freq + phase) + 30 + ((i * 53) % 120);
     g.fillTriangle(x, y, x + 4, y - 14, x + 8, y);
   }
-  g.generateTexture(key, 1280, 360);
+  g.generateTexture(key, 1280, 440);
   g.destroy();
 }
 

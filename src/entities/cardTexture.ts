@@ -27,7 +27,7 @@ const RARITY_COLOR: Record<Rarity, number> = {
   rara: PAL.ouro,
 };
 
-const PART_COLOR = { dano: PALS.perigo, bloqueio: PALS.jogador, buff: '#357a3f' } as const;
+const PART_COLOR = { dano: PALS.perigo, bloqueio: PALS.jogador, buff: PALS.buffEscuro } as const;
 
 export function cardKey(id: CardId): string {
   return `card-${id}`;

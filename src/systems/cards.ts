@@ -168,9 +168,9 @@ export function describeCard(def: CardDef): TextPart[][] {
   }
   if (s.powerBlockPerTurn !== undefined) {
     lines.push([
-      { text: 'Início do turno: ' },
+      { text: 'Início do turno: ganhe ' },
       { text: `${s.powerBlockPerTurn}`, color: 'bloqueio' },
-      { text: ' bloqueio.' },
+      { text: ' de bloqueio.' },
     ]);
   }
   if (s.powerDexterity !== undefined) {

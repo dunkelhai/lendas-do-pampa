@@ -54,6 +54,8 @@ export const PAL = {
   peleClara: 0xd9a27a,
   madeira: 0x8a5a3b,
   nuvem: 0xffffff,
+  preto: 0x000000,
+  barraFundo: 0x3a2a3a,
 } as const;
 
 /** Versões string para objetos Text. */
@@ -68,6 +70,9 @@ export const PALS = {
   buff: '#4fae5a',
   teiniagua: '#3fd0a0',
   cinza: '#c9c2b0',
+  poder: '#c59bf0',
+  buffEscuro: '#357a3f',
+  preto: '#000000',
 } as const;
 
 export const FONT_TITLE = 'Bangers';
